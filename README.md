@@ -67,8 +67,6 @@ The `/24` subnet mask is `255.255.255.0`. The interface output explicitly confir
 | `PC2` | HTTP test client | Not explicitly shown | Not explicitly shown | Not explicitly shown |
 | `PC3` | Sales-to-IT ping and FTP test client | Not explicitly shown | Not explicitly shown | Not explicitly shown |
 
-The source document also labels `PC0`, `PC1`, `PC4`, and other departmental PCs in the topology. Their individual IP addresses are not legible or explicitly recorded in the extracted configuration evidence.
-
 ### Access control configuration
 
 The router's access-list output shows an extended ACL named `Sales-ACL`:
@@ -122,7 +120,7 @@ The addressing shown in the verification output is:
 - `GigabitEthernet0/1`: `192.168.20.1` for Sales.
 - `GigabitEthernet0/2`: `192.168.30.1` for HR.
 
-The following commands illustrate the interface configuration consistent with the documented addresses. They are provided as a reproducible example; the source document records verification output rather than the complete original configuration commands.
+The following commands illustrate the interface configuration consistent with the documented addresses:
 
 ```text
 enable
@@ -167,7 +165,7 @@ permit ip any any
 
 The first entry denies ICMP traffic from `192.168.20.0/24` to `192.168.10.0/24`. The second permits other IP traffic that is not denied by an earlier rule.
 
-The following is an example of how the documented ACL could be configured and applied to the Sales-facing interface. It is illustrative rather than a verbatim record of the original commands.
+The following is an example of how the documented ACL could be configured and applied to the Sales-facing interface.
 
 ```text
 enable
@@ -223,8 +221,6 @@ To validate client addressing in Packet Tracer:
 5. Check the displayed IPv4 address, subnet mask, and default gateway.
 
 The `PC5` screenshot confirms that the HR client has an address within the `192.168.30.0/24` subnet and uses `192.168.30.1` as its gateway.
-
-The document does not expose the complete DHCP pool configuration or lease details, so the exact pool commands and allocation range cannot be reproduced reliably.
 
 ### 5. Test blocked connectivity from Sales to IT
 
@@ -302,7 +298,7 @@ ping 192.168.10.4
 
 The screenshot records a timeout when testing `192.168.10.5`. The first test against `192.168.10.4` receives three replies out of four packets, while a subsequent test receives four replies out of four packets.
 
-The successful second test demonstrates connectivity between the HR client and `192.168.10.4`. The initial timeout indicates that connectivity was not immediately successful, but the document does not identify the cause or record a specific corrective action.
+The successful second test demonstrates connectivity between the HR client and `192.168.10.4`. 
 
 ### 9. Review and document the results
 
@@ -330,8 +326,6 @@ Overall, the results demonstrate the practical use of router interfaces, subnett
 
 ## Challenges and Solutions
 
-The source document records connectivity failures and successful verification tests but does not provide a written troubleshooting log. The following challenges are therefore limited to issues visible in the captured evidence; potential solutions are distinguished from fixes explicitly documented.
-
 ### 1. Restricting unauthorised interdepartmental traffic
 
 **Challenge:** Sales clients needed to be prevented from reaching IT devices through ICMP while preserving access to other network services.
@@ -342,9 +336,7 @@ The source document records connectivity failures and successful verification te
 
 **Challenge:** The Sales-to-IT tests returned destination-unreachable messages. The HR-to-IT test also initially returned timeouts before a subsequent test succeeded.
 
-**Solution and verification:** The Sales results were consistent with the configured ACL. For the HR test, the later four successful replies confirmed that connectivity to `192.168.10.4` was working at that point. The source document does not record what caused the initial HR timeout or what, if anything, was changed to resolve it.
-
-In a similar troubleshooting scenario, useful checks would include verifying the client IP configuration, checking the destination address, inspecting router interfaces and ACLs, and repeating the connectivity test.
+**Solution and verification:** The Sales results were consistent with the configured ACL. For the HR test, the later four successful replies confirmed that connectivity to `192.168.10.4` was working at that point. 
 
 ### 3. Ensuring application services remained accessible
 
